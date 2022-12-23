@@ -216,7 +216,7 @@ public class Test : MonoBehaviour
     private void Start()
     {
         IdleCash idleCash = new IdleCash(134.85f, "k");
-        // Simplifies it self
+        // Simplifies itself
         // However, all IdleCash variables are most likely already simplified
         idleCash.Simplify();
     }
