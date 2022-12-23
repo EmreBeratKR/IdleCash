@@ -204,6 +204,33 @@ public class Test : MonoBehaviour
 }
 ```
 
+### Public Static Methods
+- ```IdleCash Lerp(IdleCash a, IdleCash b, float t)```
+- ```IdleCash LerpUnclamped(IdleCash a, IdleCash b, float t)```
+
+```cs
+using UnityEngine;
+using EmreBeratKR.IdleCash;
+
+public class Test : MonoBehaviour
+{
+    private void Start()
+    {
+        IdleCash a = new IdleCash(1, "k");
+        IdleCash b = new IdleCash(1, "m");
+        float t1 = 2.34f;
+        float t2 = 0.55f;
+        
+        // Lerps between "a" to "b" depending on "t1"
+        // "t1" is clamped between 0 and 1
+        IdleCash.Lerp(a, b, t1);
+        
+        // Lerps between "a" to "b" depending on "t2"
+        IdleCash.LerpUnclamped(a, b, t2);
+    }
+}
+```
+
 ### Public Methods
 - ```bool Equals(IdleCash other)```
 - ```void Simplify()```
@@ -230,7 +257,7 @@ public class Test : MonoBehaviour
 }
 ```
 
-### Overridden Methods
+### Public Overridden Methods
 - ```bool Equals(object other)```
 - ```int GetHashCode()```
 - ```string ToString()```
