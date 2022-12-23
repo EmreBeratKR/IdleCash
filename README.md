@@ -102,6 +102,26 @@ public class Test : MonoBehaviour
 
 <img src="https://github.com/EmreBeratKR/ImageContainer/blob/main/IdleCash/inspector_view.png" />
 
+### Public Constructors
+- ```IdleCash(float value)```
+- ```IdleCash(float value, string type)```
+
+```cs
+using UnityEngine;
+using EmreBeratKR.IdleCash;
+
+public class Test : MonoBehaviour
+{
+    private void Start()
+    {
+        // Sets the value to 578.56 and Sets the type to first type
+        IdleCash idleCash = new IdleCash(578.56f);
+        // Sets the value to 578.56 and Sets the type to "bg"
+        IdleCash idleCash = new IdleCash(578.56f, "bg");
+    }
+}
+```
+
 ### Public Static Properties
 - ```IdleCash.Zero```
 - ```IdleCash.One```
@@ -180,26 +200,6 @@ public class Test : MonoBehaviour
         string type = idleCash.type;
         // Value of the "idleCash" is "578.56";
         float value = idleCash.value;
-    }
-}
-```
-
-### Public Constructors
-- ```IdleCash(float value)```
-- ```IdleCash(float value, string type)```
-
-```cs
-using UnityEngine;
-using EmreBeratKR.IdleCash;
-
-public class Test : MonoBehaviour
-{
-    private void Start()
-    {
-        // Sets the value to 578.56 and Sets the type to first type
-        IdleCash idleCash = new IdleCash(578.56f);
-        // Sets the value to 578.56 and Sets the type to "bg"
-        IdleCash idleCash = new IdleCash(578.56f, "bg");
     }
 }
 ```
