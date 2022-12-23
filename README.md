@@ -125,8 +125,8 @@ public class Test : MonoBehaviour
 ### Public Static Properties
 - ```IdleCash Zero```
 - ```IdleCash One```
-- ```IdleCash FirstType```
-- ```IdleCash LastType```
+- ```string FirstType```
+- ```string LastType```
 
 ```cs
 using UnityEngine;
