@@ -205,6 +205,7 @@ public class Test : MonoBehaviour
 ```
 
 ### Public Methods
+- ```bool Equals(IdleCash other)```
 - ```void Simplify()```
 
 ```cs
@@ -215,15 +216,23 @@ public class Test : MonoBehaviour
 {
     private void Start()
     {
-        IdleCash idleCash = new IdleCash(134.85f, "k");
+        IdleCash idleCashOne = new IdleCash(15, "ao");
+        IdleCash idleCashTwo = new IdleCash(15, "ao");
+
+        // Returns true if both "idleCashOne" and "idleCashTwo" contains the same data
+        bool equals = idleCashOne.Equals(idleCashTwo);
+        
+        IdleCash idleCashThree = new IdleCash(134.85f, "k");
         // Simplifies itself
         // However, all IdleCash variables are most likely already simplified
-        idleCash.Simplify();
+        idleCashThree.Simplify();
     }
 }
 ```
 
 ### Overridden Methods
+- ```bool Equals(object other)```
+- ```int GetHashCode()```
 - ```string ToString()```
 
 ```cs
@@ -234,9 +243,19 @@ public class Test : MonoBehaviour
 {
     private void Start()
     {
-        IdleCash idleCash = new IdleCash(134.85f, "k");
+        IdleCash idleCashOne = new IdleCash(15, "ao");
+        object idleCashTwo = new IdleCash(15, "ao");
+        // Returns true if both "idleCashTwo" is type of IdleCash and
+        // "idleCashOne" and "idleCashTwo" contains the same data
+        bool equals = idleCashOne.Equals(idleCashTwo);
+        
+        IdleCash idleCashThree = new IdleCash(49, "t");
+        // Returns the Hash Code of the "idleCashThree"
+        int hashCode = idleCashThree.GetHashCode();
+        
+        IdleCash idleCashFour = new IdleCash(134.85f, "k");
         // string form of "idleCash" is "134.85k"
-        string toString = idleCash.ToString();
+        string toString = idleCashFour.ToString();
     }
 }
 ```
