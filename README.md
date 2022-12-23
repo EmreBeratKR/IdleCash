@@ -235,7 +235,7 @@ public class Test : MonoBehaviour
     private void Start()
     {
         IdleCash idleCash = new IdleCash(134.85f, "k");
-        // string form of "idleCash"
+        // string form of "idleCash" is "134.85k"
         string toString = idleCash.ToString();
     }
 }
