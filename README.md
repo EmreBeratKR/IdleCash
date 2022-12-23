@@ -78,4 +78,108 @@ These letters stands for the **imaginary** value types
 
 Just press this button inside the settings panel
 
-## How to Use
+## How to Use the API
+
+### Declaration
+
+```cs
+[Serializable]
+public struct IdleCash : IEquatable<IdleCash>
+```
+
+### Can be Used like other Unity struct types (Vector2, Vector3 etc.)
+
+```cs
+using UnityEngine;
+using EmreBeratKR.IdleCash;
+
+public class Test : MonoBehaviour
+{
+    public IdleCash money;
+}
+```
+- Inspector View
+
+<img src="https://github.com/EmreBeratKR/ImageContainer/blob/main/IdleCash/inspector_view.png" />
+
+### Public Static Properties
+- ```IdleCash.Zero```
+- ```IdleCash.One```
+- ```IdleCash.FirstType```
+- ```IdleCash.LastType```
+
+```cs
+using UnityEngine;
+using EmreBeratKR.IdleCash;
+
+public class Test : MonoBehaviour
+{
+    private void Start()
+    {
+        // Equivalent to 0
+        IdleCash zero = IdleCash.Zero;
+        // Equivalent to 1
+        IdleCash one = IdleCash.One;
+
+        // Default first type is ""
+        string firstType = IdleCash.FirstType;
+        // Default last type is "zz"
+        string lastType = IdleCash.LastType;
+    }
+}
+```
+
+### Public Properties
+- ```Simplified```
+- ```TypeIndex```
+- ```RealValue```
+
+```cs
+using UnityEngine;
+using EmreBeratKR.IdleCash;
+
+public class Test : MonoBehaviour
+{
+    private void Start()
+    {
+        // Represents 1,000,000,000 or 1.00b
+        IdleCash idleCashOne = IdleCash.One * 1_000_000_000f;
+        // Simplified copy of "idleCashSecond"
+        // Simplified means that its value field is between 1 and 1000
+        // However, all IdleCash variables are most likely already simplified
+        IdleCash simplified = idleCashOne.Simplified;
+        
+        // Represents 51.38 * 10^(3 * 6) or 51.38aa
+        IdleCash idleCashTwo = new IdleCash(51.38f, "aa");
+        // By default settings "aa" has index of 6
+        int typeIndex = idleCashTwo.TypeIndex;
+
+        // Represents 1,748,000,000,000 or 1.748t
+        IdleCash idleCashThree = IdleCash.One * 1_748_000_000_000;
+        // The real value of "idleCashThree" is 1,748,000,000,000 or 1.748E+12
+        float realValue = idleCashThree.RealValue;
+    }
+}
+```
+
+### Public Fields
+- ```type```
+- ```value```
+
+```cs
+using UnityEngine;
+using EmreBeratKR.IdleCash;
+
+public class Test : MonoBehaviour
+{
+    private void Start()
+    {
+        IdleCash idleCash = new IdleCash(578.56f, "bg");
+
+        // Type of the "idleCash" is "bg"
+        string type = idleCash.type;
+        // Value of the "idleCash" is "578.56";
+        float value = idleCash.value;
+    }
+}
+```
