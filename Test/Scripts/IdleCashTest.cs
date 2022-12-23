@@ -1,6 +1,6 @@
 using System;
-using EmreBeratKR.IdleCash;
 using UnityEngine;
+using EmreBeratKR.IdleCash;
 
 namespace IdleCashSystem.Test
 {

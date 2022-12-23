@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace EmreBeratKR.IdleCash
+namespace EmreBeratKR.IdleCash.Creator
 {
     [CreateAssetMenu(menuName = MenuName)]
     public class IdleCashTypeCreator : ScriptableObject
