@@ -183,3 +183,23 @@ public class Test : MonoBehaviour
     }
 }
 ```
+
+### Public Constructors
+- ```IdleCash(float value)```
+- ```IdleCash(float value, string type)```
+
+```cs
+using UnityEngine;
+using EmreBeratKR.IdleCash;
+
+public class Test : MonoBehaviour
+{
+    private void Start()
+    {
+        // Sets the value to 578.56 and Sets the type to first type
+        IdleCash idleCash = new IdleCash(578.56f);
+        // Sets the value to 578.56 and Sets the type to "bg"
+        IdleCash idleCash = new IdleCash(578.56f, "bg");
+    }
+}
+```
