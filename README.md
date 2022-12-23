@@ -123,10 +123,10 @@ public class Test : MonoBehaviour
 ```
 
 ### Public Static Properties
-- ```IdleCash.Zero```
-- ```IdleCash.One```
-- ```IdleCash.FirstType```
-- ```IdleCash.LastType```
+- ```IdleCash Zero```
+- ```IdleCash One```
+- ```IdleCash FirstType```
+- ```IdleCash LastType```
 
 ```cs
 using UnityEngine;
@@ -150,9 +150,9 @@ public class Test : MonoBehaviour
 ```
 
 ### Public Properties
-- ```Simplified```
-- ```TypeIndex```
-- ```RealValue```
+- ```IdleCash Simplified```
+- ```int TypeIndex```
+- ```float RealValue```
 
 ```cs
 using UnityEngine;
@@ -183,8 +183,8 @@ public class Test : MonoBehaviour
 ```
 
 ### Public Fields
-- ```type```
-- ```value```
+- ```string type```
+- ```float value```
 
 ```cs
 using UnityEngine;
