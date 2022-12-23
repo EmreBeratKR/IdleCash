@@ -222,3 +222,21 @@ public class Test : MonoBehaviour
     }
 }
 ```
+
+### Overridden Methods
+- ```string ToString()```
+
+```cs
+using UnityEngine;
+using EmreBeratKR.IdleCash;
+
+public class Test : MonoBehaviour
+{
+    private void Start()
+    {
+        IdleCash idleCash = new IdleCash(134.85f, "k");
+        // string form of "idleCash"
+        string toString = idleCash.ToString();
+    }
+}
+```
