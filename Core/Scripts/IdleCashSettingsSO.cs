@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
+using EmreBeratKR.IdleCash.Exceptions;
 
 namespace EmreBeratKR.IdleCash.Creator
 {
-    [CreateAssetMenu(menuName = MenuName)]
-    public class IdleCashTypeCreator : ScriptableObject
+    public class IdleCashSettingsSO : ScriptableObject
     {
-        private const string MenuName = nameof(IdleCashTypeCreator);
-        private const string CreatorAssetPath = "Creators";
+        public const string MenuItemSettings = MenuItemRoot + "Settings";
+
+
+        private const string DefaultSettingsFileName = "IdleCash Settings.asset";
+        private const string MenuItemRoot = "Tools/EmreBeratKR/IdleCash/";
         private const string BlankType = "";
         
         
@@ -26,20 +30,27 @@ namespace EmreBeratKR.IdleCash.Creator
         [SerializeField] private string[] letters = DefaultLetters;
         [SerializeField] private IdleCashTypeCreationMode creationMode = DefaultCreationMode;
 
+        
+        public static string FirstType => Types[0];
+        public static string LastType => Types[Types.Count - 1];
 
-        private static IdleCashTypeCreator ms_Instance;
 
-        private static IdleCashTypeCreator Instance
+        private static IdleCashSettingsSO Instance
         {
             get
             {
-                if (ms_Instance == null)
+                if (!ms_Instance)
                 {
-                    var instances = Resources.LoadAll<IdleCashTypeCreator>(CreatorAssetPath);
+                    var instances = Resources.LoadAll<IdleCashSettingsSO>("");
 
                     if (instances.Length == 0)
                     {
-                        throw new NullReferenceException($"{nameof(IdleCashTypeCreator)} cannot be found in Resources folders! Please Create one from {MenuName}.");
+                        if (ms_LogError)
+                        {
+                            Debug.LogError(new IdleCashSettingsNotFoundException());
+                        }
+                        
+                        return ms_Instance;
                     }
 
                     ms_Instance = instances[0];
@@ -49,31 +60,109 @@ namespace EmreBeratKR.IdleCash.Creator
             }
         }
         
-        
-        private List<string> m_Types;
-
         private static List<string> Types
         {
             get
             {
                 if (Instance.m_Types == null)
                 {
-                    CreateTypes();
+                    Instance.CreateTypes();
                 }
 
                 return Instance.m_Types;
             }
         }
 
-        public static string FirstType => Types[0];
 
-        public static string LastType => Types.Last();
+        private static IdleCashSettingsSO ms_Instance;
+        private static bool ms_LogError = true;
+        [HideInInspector, SerializeField]
+        private List<string> m_Types;
 
 
+#if UNITY_EDITOR
+
+        [MenuItem(MenuItemSettings)]
+        private static void OpenSettings()
+        {
+            ms_LogError = false;
+            
+            var instance = Instance;
+
+            if (!instance)
+            {
+                TryFindResourcesFolderPath(out var path);
+                instance = CreateNewInstance(path);
+            }
+            
+            Selection.activeObject = instance;
+            EditorGUIUtility.PingObject(instance);
+
+            ms_LogError = true;
+        }
+
+        private static IdleCashSettingsSO CreateNewInstance(string path)
+        {
+            var newInstance = CreateInstance<IdleCashSettingsSO>();
+            newInstance.CreateTypes();
+            AssetDatabase.CreateAsset(newInstance, path + "/" + DefaultSettingsFileName);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            return newInstance;
+        }
+        
+        private static bool TryFindResourcesFolderPath(out string path)
+        {
+            if (!TryFindFolderPath("Assets/", "IdleCash", out path)) return false;
+
+            var resourcesPath = path + "/Resources";
+
+            if (!Directory.Exists(resourcesPath))
+            {
+                AssetDatabase.CreateFolder(path, "Resources");
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            }
+
+            path = resourcesPath;
+            
+            return true;
+        }
+        
+        private static bool TryFindFolderPath(string startingPath, string folderName, out string path)
+        {
+            foreach (var directory in Directory.EnumerateDirectories(startingPath))
+            {
+                if (directory.EndsWith(folderName))
+                {
+                    path = directory;
+                    return true;
+                }
+
+                if (TryFindFolderPath(directory, folderName, out path)) return true;
+            }
+
+            path = startingPath;
+            return false;
+        }
+        
         private void OnValidate()
         {
             CreateTypes();
         }
+        
+        public static void ResetSettingsToDefault()
+        {
+            Undo.RecordObject(Instance, "Reset IdleCash Settings");
+            
+            Instance.realTypes = DefaultRealTypes;
+            Instance.letters = DefaultLetters;
+            Instance.creationMode = DefaultCreationMode;
+            
+            Instance.CreateTypes();
+        }
+        
+#endif
 
 
         public static bool IsValidType(string type)
@@ -100,19 +189,10 @@ namespace EmreBeratKR.IdleCash.Creator
             return previousIndex < 0 ? null : Types[previousIndex];
         }
 
-        public static void ResetSettingsToDefault()
+
+        private void CreateTypes()
         {
-            Instance.realTypes = DefaultRealTypes;
-            Instance.letters = DefaultLetters;
-            Instance.creationMode = DefaultCreationMode;
-            
-            CreateTypes();
-        }
-        
-        
-        private static void CreateTypes()
-        {
-            Instance.m_Types = new List<string>();
+            m_Types = new List<string>();
             
             var creationMode = Instance.creationMode;
 
@@ -137,28 +217,28 @@ namespace EmreBeratKR.IdleCash.Creator
             }
         }
 
-        private static void CreateBlankType()
+        private void CreateBlankType()
         {
-            Instance.m_Types.Add(BlankType);
+            m_Types.Add(BlankType);
         }
 
-        private static void CreateRealTypes()
+        private void CreateRealTypes()
         {
             foreach (var realType in Instance.realTypes)
             {
-                Instance.m_Types.Add(realType);
+                m_Types.Add(realType);
             }
         }
 
-        private static void CreateSingleLetterTypes()
+        private void CreateSingleLetterTypes()
         {
             foreach (var letter in Instance.letters)
             {
-                Instance.m_Types.Add(letter);
+                m_Types.Add(letter);
             }
         }
         
-        private static void CreateDoubleLetterTypes()
+        private void CreateDoubleLetterTypes()
         {
             var letters = Instance.letters;
             
@@ -167,7 +247,7 @@ namespace EmreBeratKR.IdleCash.Creator
                 foreach (var secondLetter in letters)
                 {
                     var newDoubleLetterType = firstLetter + secondLetter;
-                    Instance.m_Types.Add(newDoubleLetterType);
+                    m_Types.Add(newDoubleLetterType);
                 }
             }
         }

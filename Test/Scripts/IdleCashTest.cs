@@ -39,7 +39,7 @@ namespace IdleCashSystem.Test
         [SerializeField] private bool isClamped;
         [SerializeField] private IdleCash lerpResult;
         
-        
+
         private void OnValidate()
         {
             StringValueTest();

@@ -21,12 +21,12 @@ namespace EmreBeratKR.IdleCash
         public static IdleCash One => new IdleCash(1f, FirstType);
 
 
-        public static string FirstType => IdleCashTypeCreator.FirstType;
+        public static string FirstType => IdleCashSettingsSO.FirstType;
         
-        public static string LastType => IdleCashTypeCreator.LastType;
+        public static string LastType => IdleCashSettingsSO.LastType;
 
         
-        public int TypeIndex => IdleCashTypeCreator.GetTypeIndex(type);
+        public int TypeIndex => IdleCashSettingsSO.GetTypeIndex(type);
 
         public IdleCash Simplified
         {
@@ -59,17 +59,17 @@ namespace EmreBeratKR.IdleCash
 
         public static bool IsValidType(string type)
         {
-            return IdleCashTypeCreator.IsValidType(type);
+            return IdleCashSettingsSO.IsValidType(type);
         }
 
         public static string GetNextType(string type)
         {
-            return IdleCashTypeCreator.GetNextType(type);
+            return IdleCashSettingsSO.GetNextType(type);
         }
         
         public static string GetPreviousType(string type)
         {
-            return IdleCashTypeCreator.GetPreviousType(type);
+            return IdleCashSettingsSO.GetPreviousType(type);
         }
 
         public static IdleCash Lerp(IdleCash a, IdleCash b, float t)
