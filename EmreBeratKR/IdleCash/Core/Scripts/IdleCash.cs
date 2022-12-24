@@ -5,6 +5,11 @@ using EmreBeratKR.IdleCash.Exceptions;
 
 namespace EmreBeratKR.IdleCash
 {
+    /// <summary>
+    ///     <para>Representation of Idle Game Currencies.</para>
+    ///     <a href="https://github.com/EmreBeratKR/IdleCash/blob/main/README.md">Documentation</a>
+    /// </summary>
+    /// <example>7.15k, 15.99t, 945.3ac</example>
     [Serializable]
     public struct IdleCash : IEquatable<IdleCash>
     {
@@ -13,12 +18,32 @@ namespace EmreBeratKR.IdleCash
         private const int MinValue = 1;
 
 
-        public static IdleCash Zero => new IdleCash(0f, FirstType);
-        public static IdleCash One => new IdleCash(1f, FirstType);
+        /// <summary>
+        ///     <para>Shorthand for writing IdleCash(0).</para>
+        /// </summary>
+        public static IdleCash Zero => new IdleCash(0, FirstType);
+        
+        /// <summary>
+        ///     <para>Shorthand for writing IdleCash(1).</para>
+        /// </summary>
+        public static IdleCash One => new IdleCash(1, FirstType);
+        
+        /// <summary>
+        ///     <para>The first type of IdleCash</para>
+        /// </summary>
         public static string FirstType => IdleCashSettingsSO.FirstType;
+        
+        /// <summary>
+        ///     <para>The last type of IdleCash</para>
+        /// </summary>
         public static string LastType => IdleCashSettingsSO.LastType;
         
 
+        /// <summary>
+        ///     <para>The simplified copy which its value field is between 1 and 1000.</para>
+        /// </summary>
+        /// <returns>A simplified copy.</returns>
+        /// <seealso cref="Simplify"/>
         public IdleCash Simplified
         {
             get
@@ -29,11 +54,30 @@ namespace EmreBeratKR.IdleCash
             }
         }
 
+        /// <summary>
+        ///     <para>The real value which it represents.</para>
+        /// </summary>
+        /// <returns>value * 10^(3 * TypeIndex).</returns>
+        /// <seealso cref="value"/>
         public float RealValue => (float) (value * Math.Pow(10, 3 * TypeIndex));
+        
+        /// <summary>
+        ///     <para>The index of its current type.</para>
+        /// </summary>
+        /// <seealso cref="type"/>
         public int TypeIndex => IdleCashSettingsSO.GetTypeIndex(type);
 
         
+        /// <summary>
+        ///     <para>The string representation of its 10's power factor.</para>
+        /// </summary>
+        /// <seealso cref="TypeIndex"/>
         public string type;
+        
+        /// <summary>
+        ///     <para>The float part.</para>
+        /// </summary>
+        /// <seealso cref="RealValue"/>
         public float value;
         
 
@@ -62,12 +106,36 @@ namespace EmreBeratKR.IdleCash
         }
         
 
+        /// <summary>
+        ///   <para>Linearly interpolates between two IdleCash values.</para>
+        /// </summary>
+        /// <param name="a">Start value, returned when t = 0.</param>
+        /// <param name="b">End value, returned when t = 1.</param>
+        /// <param name="t">
+        ///     Value used to interpolate between a and b.
+        ///     It's clamped between 0 and 1.
+        /// </param>
+        /// <returns>
+        ///   <para>Interpolated IdleCash value.</para>
+        /// </returns>
         public static IdleCash Lerp(IdleCash a, IdleCash b, float t)
         {
             var clampedT = Mathf.Clamp01(t);
             return LerpUnclamped(a, b, clampedT);
         }
 
+        /// <summary>
+        ///   <para>Linearly interpolates between two IdleCash values.</para>
+        /// </summary>
+        /// <param name="a">Start value, returned when t = 0.</param>
+        /// <param name="b">End value, returned when t = 1.</param>
+        /// <param name="t">
+        ///     Value used to interpolate between a and b.
+        ///     It's not clamped.
+        /// </param>
+        /// <returns>
+        ///   <para>Interpolated IdleCash value.</para>
+        /// </returns>
         public static IdleCash LerpUnclamped(IdleCash a, IdleCash b, float t)
         {
             var difference = b - a;
@@ -75,6 +143,12 @@ namespace EmreBeratKR.IdleCash
         }
 
 
+        /// <summary>
+        ///     <para>
+        ///         Simplifies itself to keep its value field between 1 and 1000.
+        ///     </para>
+        /// </summary>
+        /// <seealso cref="Simplified"/>
         public void Simplify()
         {
             var isNegative = value < 0;
