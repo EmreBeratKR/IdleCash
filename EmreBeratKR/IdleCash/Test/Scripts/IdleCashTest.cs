@@ -9,10 +9,6 @@ namespace IdleCashSystem.Test
         [Header("String Value Test")]
         [SerializeField] private IdleCash idleCashToPrint;
         [SerializeField] private string idleCashAsString;
-        
-        [Header("Type Validation Test")]
-        [SerializeField] private string typeToValidate;
-        [SerializeField] private bool isValidType;
 
         [Header("Simplification Test")]
         [SerializeField] private IdleCash idleCashToSimplify;
@@ -30,7 +26,6 @@ namespace IdleCashSystem.Test
         [SerializeField] private IdleCash rhsIdleCashNumeric;
         [SerializeField] private float rhsFloatNumeric;
         [SerializeField] private IdleCash numericOperatorIdleCashResult;
-        [SerializeField] private float numericOperatorFloatResult;
 
         [Header("Lerp Test")]
         [SerializeField] private IdleCash a;
@@ -43,7 +38,6 @@ namespace IdleCashSystem.Test
         private void OnValidate()
         {
             StringValueTest();
-            TypeValidationTest();
             SimplificationTest();
             BoolOperatorTest();
             NumericOperatorTest();
@@ -54,11 +48,6 @@ namespace IdleCashSystem.Test
         private void StringValueTest()
         {
             idleCashAsString = idleCashToPrint.ToString();
-        }
-
-        private void TypeValidationTest()
-        {
-            isValidType = IdleCash.IsValidType(typeToValidate);
         }
 
         private void SimplificationTest()
@@ -86,17 +75,12 @@ namespace IdleCashSystem.Test
 
         private void NumericOperatorTest()
         {
-            if (numericOperator == IdleCashNumericOperatorTest.Divide)
-            {
-                numericOperatorFloatResult = lhsIdleCashNumeric / rhsIdleCashNumeric;
-                return;
-            }
-            
             numericOperatorIdleCashResult = numericOperator switch
             {
                 IdleCashNumericOperatorTest.Add => lhsIdleCashNumeric + rhsIdleCashNumeric,
                 IdleCashNumericOperatorTest.Subtract => lhsIdleCashNumeric - rhsIdleCashNumeric,
                 IdleCashNumericOperatorTest.Multiply => lhsIdleCashNumeric * rhsFloatNumeric,
+                IdleCashNumericOperatorTest.Divide => lhsIdleCashNumeric / rhsIdleCashNumeric,
                 IdleCashNumericOperatorTest.DivideByFloat => lhsIdleCashNumeric / rhsFloatNumeric,
                 _ => throw new ArgumentOutOfRangeException()
             };

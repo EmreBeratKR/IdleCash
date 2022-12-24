@@ -8,25 +8,15 @@ namespace EmreBeratKR.IdleCash
     public struct IdleCash : IEquatable<IdleCash>
     {
         private const float ValueTolerance = 0.00001f;
-        private const int TypeDifferenceTolerance = 2;
         private const int MaxValue = 1000;
         private const int MinValue = 1;
 
 
-        public string type;
-        public float value;
-
-
         public static IdleCash Zero => new IdleCash(0f, FirstType);
         public static IdleCash One => new IdleCash(1f, FirstType);
-
-
         public static string FirstType => IdleCashSettingsSO.FirstType;
-        
         public static string LastType => IdleCashSettingsSO.LastType;
-
         
-        public int TypeIndex => IdleCashSettingsSO.GetTypeIndex(type);
 
         public IdleCash Simplified
         {
@@ -38,11 +28,19 @@ namespace EmreBeratKR.IdleCash
             }
         }
 
+        public float RealValue => (float) (value * Math.Pow(10, 3 * TypeIndex));
+        public int TypeIndex => IdleCashSettingsSO.GetTypeIndex(type);
+
+        
+        public string type;
+        public float value;
+        
 
         public IdleCash(float value)
         {
             this.value = value;
             this.type = FirstType;
+            Simplify();
         }
         
         public IdleCash(float value, string type)
@@ -54,23 +52,9 @@ namespace EmreBeratKR.IdleCash
             
             this.value = value;
             this.type = type;
-        }
-
-
-        public static bool IsValidType(string type)
-        {
-            return IdleCashSettingsSO.IsValidType(type);
-        }
-
-        public static string GetNextType(string type)
-        {
-            return IdleCashSettingsSO.GetNextType(type);
+            Simplify();
         }
         
-        public static string GetPreviousType(string type)
-        {
-            return IdleCashSettingsSO.GetPreviousType(type);
-        }
 
         public static IdleCash Lerp(IdleCash a, IdleCash b, float t)
         {
@@ -152,17 +136,26 @@ namespace EmreBeratKR.IdleCash
             return lhs.Simplified;
         }
 
+        public static IdleCash operator *(IdleCash lhs, IdleCash rhs)
+        {
+            SetThemSameType(ref lhs, ref rhs);
+
+            lhs.value *= rhs.value;
+            return lhs.Simplified;
+        }
+        
         public static IdleCash operator *(IdleCash lhs, float rhs)
         {
             lhs.value *= rhs;
             return lhs.Simplified;
         }
         
-        public static float operator /(IdleCash lhs, IdleCash rhs)
+        public static IdleCash operator /(IdleCash lhs, IdleCash rhs)
         {
             SetThemSameType(ref lhs, ref rhs);
 
-            return lhs.value / rhs.value;
+            lhs.value /= rhs.value;
+            return lhs.Simplified;
         }
         
         public static IdleCash operator /(IdleCash lhs, float rhs)
@@ -245,6 +238,21 @@ namespace EmreBeratKR.IdleCash
             return lhsTypeIndex >= rhsTypeIndex;
         }
 
+        
+        private static bool IsValidType(string type)
+        {
+            return IdleCashSettingsSO.IsValidType(type);
+        }
+
+        private static string GetNextType(string type)
+        {
+            return IdleCashSettingsSO.GetNextType(type);
+        }
+        
+        private static string GetPreviousType(string type)
+        {
+            return IdleCashSettingsSO.GetPreviousType(type);
+        }
 
         private static void SetThemSameType(ref IdleCash first, ref IdleCash second)
         {
@@ -254,22 +262,7 @@ namespace EmreBeratKR.IdleCash
             var firstTypeIndex = first.TypeIndex;
             var secondTypeIndex = second.TypeIndex;
             var typeDifference = Mathf.Abs(firstTypeIndex - secondTypeIndex);
-            var isTooBigTypeDifference = typeDifference > TypeDifferenceTolerance;
             var isFirstGreater = first > second;
-
-            if (isTooBigTypeDifference)
-            {
-                if (isFirstGreater)
-                {
-                    second.type = first.type;
-                    second.value = 0f;
-                    return;
-                }
-
-                first.type = second.type;
-                first.value = 0f;
-                return;
-            }
 
             if (isFirstGreater)
             {
