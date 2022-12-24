@@ -11,4 +11,13 @@ namespace EmreBeratKR.IdleCash.Exceptions
             
         }
     }
+
+    public class IdleCashInvalidTypeException : UnityException
+    {
+        public IdleCashInvalidTypeException(string type)
+            : base($"Invalid Idle Cash Type '{type}'")
+        {
+            
+        }
+    }
 }

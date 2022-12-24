@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using EmreBeratKR.IdleCash.Creator;
+using EmreBeratKR.IdleCash.Exceptions;
 
 namespace EmreBeratKR.IdleCash
 {
@@ -45,9 +46,14 @@ namespace EmreBeratKR.IdleCash
         
         public IdleCash(float value, string type)
         {
+            if (type == null)
+            {
+                type = FirstType;
+            }
+            
             if (!IsValidType(type))
             {
-                throw new Exception("Invalid Idle Cash Type!");
+                Debug.LogWarning(new IdleCashInvalidTypeException(type));
             }
             
             this.value = value;
@@ -71,6 +77,9 @@ namespace EmreBeratKR.IdleCash
 
         public void Simplify()
         {
+            var isNegative = value < 0;
+            value = Mathf.Abs(value);
+
             while (true)
             {
                 if (value >= MaxValue)
@@ -88,6 +97,8 @@ namespace EmreBeratKR.IdleCash
                     break;
                 }
             }
+
+            value = (isNegative ? -1f : 1f) * value;
         }
         
         
@@ -138,8 +149,14 @@ namespace EmreBeratKR.IdleCash
 
         public static IdleCash operator *(IdleCash lhs, IdleCash rhs)
         {
-            SetThemSameType(ref lhs, ref rhs);
+            var rhsTypeIndex = rhs.TypeIndex;
 
+            for (int i = 0; i < rhsTypeIndex; i++)
+            {
+                lhs.value *= MaxValue;
+                lhs.Simplify();
+            }
+            
             lhs.value *= rhs.value;
             return lhs.Simplified;
         }
@@ -152,8 +169,14 @@ namespace EmreBeratKR.IdleCash
         
         public static IdleCash operator /(IdleCash lhs, IdleCash rhs)
         {
-            SetThemSameType(ref lhs, ref rhs);
+            var rhsTypeIndex = rhs.TypeIndex;
 
+            for (int i = 0; i < rhsTypeIndex; i++)
+            {
+                lhs.value /= MaxValue;
+                lhs.Simplify();
+            }
+            
             lhs.value /= rhs.value;
             return lhs.Simplified;
         }
