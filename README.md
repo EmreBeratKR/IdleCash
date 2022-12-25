@@ -16,7 +16,7 @@
 
 ## About
 
-An Open-source Idle Game Currency for Unity
+An Open-source Idle Game Currency data type for Unity
 
 ## How to Install
 
