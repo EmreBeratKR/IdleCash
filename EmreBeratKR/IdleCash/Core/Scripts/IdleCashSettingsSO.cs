@@ -34,6 +34,20 @@ namespace EmreBeratKR.IdleCash.Creator
         public static string FirstType => Types[0];
         public static string LastType => Types[Types.Count - 1];
 
+        
+        public static List<string> Types
+        {
+            get
+            {
+                if (Instance.m_Types == null)
+                {
+                    Instance.CreateTypes();
+                }
+
+                return Instance.m_Types;
+            }
+        }
+        
 
         private static IdleCashSettingsSO Instance
         {
@@ -57,19 +71,6 @@ namespace EmreBeratKR.IdleCash.Creator
                 }
 
                 return ms_Instance;
-            }
-        }
-        
-        private static List<string> Types
-        {
-            get
-            {
-                if (Instance.m_Types == null)
-                {
-                    Instance.CreateTypes();
-                }
-
-                return Instance.m_Types;
             }
         }
 
