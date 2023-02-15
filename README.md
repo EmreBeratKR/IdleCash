@@ -8,7 +8,7 @@
 
 [<img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" width="200" />][coffee]
 
-[assetstore]: https://assetstore.unity.com/
+[assetstore]: https://assetstore.unity.com/packages/tools/utilities/idlecash-242434
 [discord]: https://discord.gg/mKG9vkyEDX
 [coffee]: https://www.buymeacoffee.com/emreberat
 [releases]: https://github.com/EmreBeratKR/IdleCash/releases
