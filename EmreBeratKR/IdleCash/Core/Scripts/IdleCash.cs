@@ -141,6 +141,27 @@ namespace EmreBeratKR.IdleCash
             var difference = b - a;
             return a + difference * t;
         }
+        
+        /// <summary>
+        ///   <para>Clamps between two IdleCash values. Like Mathf.Clamp()</para>
+        /// </summary>
+        /// <param name="value">
+        ///     The value to be clamped between a and b.
+        /// </param>
+        /// <param name="a">Min value.</param>
+        /// <param name="b">Max value.</param>
+        /// <returns>
+        ///   <para>Clamped IdleCash value.</para>
+        /// </returns>
+        /// <seealso cref="UnityEngine.Mathf.Clamp"/>
+        public static IdleCash Clamp(IdleCash value, IdleCash a, IdleCash b)
+        {
+            if (value > b) return b;
+
+            if (value < a) return a;
+
+            return value;
+        }
 
 
         /// <summary>
