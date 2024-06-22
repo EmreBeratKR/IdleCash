@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using EmreBeratKR.IdleCash.Creator;
 using EmreBeratKR.IdleCash.Exceptions;
+using System.Text.RegularExpressions;
 
 namespace EmreBeratKR.IdleCash
 {
@@ -225,6 +226,64 @@ namespace EmreBeratKR.IdleCash
             return $"{value:0.00}{type}";
         }
 
+        /// <summary>
+        /// Parse any string to IdleCash
+        /// </summary>
+        /// <param name="s">string to parse</param>
+        /// <param name="result"><see cref="IdleCash"/> variable</param>
+        /// <returns>true if success, false if fails (invalid format)</returns>
+        public static bool TryParse(string s, out IdleCash result)
+        {
+            result = Parse(s);
+            return result != Zero && s != "0";
+        }
+
+        /// <summary>
+        /// Parse string to IdleCash
+        /// </summary>
+        /// <param name="s">string to parse</param>
+        /// <returns><see cref="IdleCash"/> variable if success, returns <see cref="IdleCash.Zero"/> if fails.</returns>
+        public static IdleCash Parse(string s)
+        {
+            bool isValid = IsValidFormat(s, out float valueS, out string typeS);
+
+            if (isValid)
+            {
+                return new IdleCash(valueS, typeS);
+            }
+            else
+            {
+                return Zero;
+            }
+        }
+
+        private static bool IsValidFormat(string s, out float parsedValue, out string parsedType)
+        {
+            parsedValue = 0;
+            parsedType = string.Empty;
+
+            string pattern = @"^(-)?(0|[1-9]\d*)?(\.\d+)?(?<=\d)(\D+)?$";
+            Match regex = Regex.Match(s, pattern);
+
+            if (regex.Success)
+            {
+                string temp = string.Empty;
+                for (int i = 1; i < regex.Groups.Count; i++)
+                {
+                    // if the last group is NaN, set as parsedType
+                    if (i == regex.Groups.Count - 1 && !float.TryParse(regex.Groups[i].Value, out float num))
+                    {
+                        parsedType = regex.Groups[^1].Value;
+                        break;
+                    }
+
+                    temp += regex.Groups[i];
+                }
+                parsedValue = float.Parse(temp);
+            }
+
+            return regex.Success;
+        }
 
         public static IdleCash operator +(IdleCash lhs, IdleCash rhs)
         {
