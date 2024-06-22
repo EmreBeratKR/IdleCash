@@ -245,44 +245,15 @@ namespace EmreBeratKR.IdleCash
         /// <returns><see cref="IdleCash"/> variable if success, returns <see cref="IdleCash.Zero"/> if fails.</returns>
         public static IdleCash Parse(string s)
         {
-            bool isValid = IsValidFormat(s, out float valueS, out string typeS);
+            var isValid = IsValidFormat(s, out var valueS, out var typeS);
 
-            if (isValid)
+            if (!IsValidType(typeS))
             {
-                return new IdleCash(valueS, typeS);
+                Debug.LogWarning($"Parse failed because the Type ({typeS}) is not valid. Parsing with value only.");
+                return new IdleCash(valueS);
             }
-            else
-            {
-                return Zero;
-            }
-        }
-
-        private static bool IsValidFormat(string s, out float parsedValue, out string parsedType)
-        {
-            parsedValue = 0;
-            parsedType = string.Empty;
-
-            string pattern = @"^(-)?(0|[1-9]\d*)?(\.\d+)?(?<=\d)(\D+)?$";
-            Match regex = Regex.Match(s, pattern);
-
-            if (regex.Success)
-            {
-                string temp = string.Empty;
-                for (int i = 1; i < regex.Groups.Count; i++)
-                {
-                    // if the last group is NaN, set as parsedType
-                    if (i == regex.Groups.Count - 1 && !float.TryParse(regex.Groups[i].Value, out float num))
-                    {
-                        parsedType = regex.Groups[^1].Value;
-                        break;
-                    }
-
-                    temp += regex.Groups[i];
-                }
-                parsedValue = float.Parse(temp);
-            }
-
-            return regex.Success;
+            
+            return isValid ? new IdleCash(valueS, typeS) : Zero;
         }
 
         public static IdleCash operator +(IdleCash lhs, IdleCash rhs)
@@ -450,6 +421,35 @@ namespace EmreBeratKR.IdleCash
             
             second.type = first.type;
             second.value *= Mathf.Pow(MaxValue, typeDifference);
+        }
+        
+        private static bool IsValidFormat(string s, out float parsedValue, out string parsedType)
+        {
+            parsedValue = 0;
+            parsedType = string.Empty;
+
+            var pattern = @"^(-)?(0|[1-9]\d*)?(\.\d+)?(?<=\d)(\D+)?$";
+            var regex = Regex.Match(s, pattern);
+
+            if (regex.Success)
+            {
+                var temp = string.Empty;
+                
+                for (int i = 1; i < regex.Groups.Count; i++)
+                {
+                    // if the last group is NaN, set as parsedType
+                    if (i == regex.Groups.Count - 1 && !float.TryParse(regex.Groups[i].Value, out float num))
+                    {
+                        parsedType = regex.Groups[^1].Value;
+                        break;
+                    }
+
+                    temp += regex.Groups[i];
+                }
+                parsedValue = float.Parse(temp);
+            }
+
+            return regex.Success;
         }
         
         

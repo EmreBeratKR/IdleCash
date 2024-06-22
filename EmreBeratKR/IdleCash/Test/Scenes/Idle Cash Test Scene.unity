@@ -209,7 +209,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1191041787}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &77540542
 MonoBehaviour:
@@ -223,10 +223,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 044b5472fb866454bad555d2d0cbf71b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rawString: -3.14a
+  rawString: 1009.56aa
   parsed:
-    type: a
-    value: -3.14
+    type: ab
+    value: 1.00956
 --- !u!1 &105574462
 GameObject:
   m_ObjectHideFlags: 0
