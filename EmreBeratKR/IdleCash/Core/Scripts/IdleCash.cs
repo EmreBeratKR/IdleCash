@@ -258,21 +258,9 @@ namespace EmreBeratKR.IdleCash
 
         public static IdleCash operator ++(IdleCash prevValue)
         {
-            prevValue.value++;
-            return prevValue.Simplified;
+            return prevValue + One;
         }
-
-        public static IdleCash operator --(IdleCash prevValue)
-        {
-            prevValue.value--;
-            return prevValue.Simplified;
-        }
-
-        public static IdleCash operator -(IdleCash prevValue)
-        {
-            return prevValue * -1f;
-        }
-
+        
         public static IdleCash operator +(IdleCash lhs, IdleCash rhs)
         {
             SetThemSameType(ref lhs, ref rhs);
@@ -281,12 +269,42 @@ namespace EmreBeratKR.IdleCash
             return lhs.Simplified;
         }
         
+        public static IdleCash operator +(IdleCash lhs, float rhs)
+        {
+            return lhs + new IdleCash(rhs);
+        }
+        
+        public static IdleCash operator +(float lhs, IdleCash rhs)
+        {
+            return new IdleCash(lhs) + rhs;
+        }
+
+        public static IdleCash operator --(IdleCash prevValue)
+        {
+            return prevValue - One;
+        }
+
+        public static IdleCash operator -(IdleCash prevValue)
+        {
+            return prevValue * -1f;
+        }
+        
         public static IdleCash operator -(IdleCash lhs, IdleCash rhs)
         {
             SetThemSameType(ref lhs, ref rhs);
 
             lhs.value -= rhs.value;
             return lhs.Simplified;
+        }
+        
+        public static IdleCash operator -(IdleCash lhs, float rhs)
+        {
+            return lhs - new IdleCash(rhs);
+        }
+        
+        public static IdleCash operator -(float lhs, IdleCash rhs)
+        {
+            return new IdleCash(lhs) - rhs;
         }
 
         public static IdleCash operator *(IdleCash lhs, IdleCash rhs)
@@ -305,14 +323,12 @@ namespace EmreBeratKR.IdleCash
         
         public static IdleCash operator *(IdleCash lhs, float rhs)
         {
-            lhs.value *= rhs;
-            return lhs.Simplified;
+            return lhs * new IdleCash(rhs);
         }
         
         public static IdleCash operator *(float lhs, IdleCash rhs)
         {
-            rhs.value *= lhs;
-            return rhs.Simplified;
+            return new IdleCash(lhs) * rhs;
         }
         
         public static IdleCash operator /(IdleCash lhs, IdleCash rhs)
@@ -331,14 +347,12 @@ namespace EmreBeratKR.IdleCash
         
         public static IdleCash operator /(IdleCash lhs, float rhs)
         {
-            lhs.value /= rhs;
-            return lhs.Simplified;
+            return lhs / new IdleCash(rhs);
         }
-
-        public static IdleCash operator %(IdleCash lhs, float rhs)
+        
+        public static IdleCash operator /(float lhs, IdleCash rhs)
         {
-            lhs.value %= rhs;
-            return lhs.Simplified;
+            return new IdleCash(lhs) / rhs;
         }
 
         public static bool operator ==(IdleCash lhs, IdleCash rhs)
