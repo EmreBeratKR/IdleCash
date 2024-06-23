@@ -256,6 +256,23 @@ namespace EmreBeratKR.IdleCash
             return isValid ? new IdleCash(valueS, typeS) : Zero;
         }
 
+        public static IdleCash operator ++(IdleCash prevValue)
+        {
+            prevValue.value++;
+            return prevValue.Simplified;
+        }
+
+        public static IdleCash operator --(IdleCash prevValue)
+        {
+            prevValue.value--;
+            return prevValue.Simplified;
+        }
+
+        public static IdleCash operator -(IdleCash prevValue)
+        {
+            return prevValue * -1f;
+        }
+
         public static IdleCash operator +(IdleCash lhs, IdleCash rhs)
         {
             SetThemSameType(ref lhs, ref rhs);
@@ -292,6 +309,12 @@ namespace EmreBeratKR.IdleCash
             return lhs.Simplified;
         }
         
+        public static IdleCash operator *(float lhs, IdleCash rhs)
+        {
+            rhs.value *= lhs;
+            return rhs.Simplified;
+        }
+        
         public static IdleCash operator /(IdleCash lhs, IdleCash rhs)
         {
             var rhsTypeIndex = rhs.TypeIndex;
@@ -311,7 +334,13 @@ namespace EmreBeratKR.IdleCash
             lhs.value /= rhs;
             return lhs.Simplified;
         }
-        
+
+        public static IdleCash operator %(IdleCash lhs, float rhs)
+        {
+            lhs.value %= rhs;
+            return lhs.Simplified;
+        }
+
         public static bool operator ==(IdleCash lhs, IdleCash rhs)
         {
             return lhs.Equals(rhs);
