@@ -264,5 +264,303 @@ namespace EmreBeratKR.IdleCash.Tests
         }
 
         #endregion
+
+        #region (<) operator
+
+        [Test]
+        public void LessThanSameType()
+        {
+            // Setup
+            var a = new IdleCash(1500);
+            var b = new IdleCash(1600);
+
+            // Execute
+            var result = a < b;
+
+            // Assert
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public void LessThanDifferentType()
+        {
+            // Setup
+            var a = new IdleCash(15);
+            var b = new IdleCash(2000);
+
+            // Execute
+            var result = a < b;
+
+            // Assert
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public void LessThanWithNegativeSameType()
+        {
+            // Setup
+            var a = new IdleCash(-20000);
+            var b = new IdleCash(-15000);
+            var c = new IdleCash(20000);
+
+            // Execute
+            var result1 = a < b;
+            var result2 = b < c;
+            var result3 = a < c;
+
+            // Assert
+            Assert.AreEqual(true, result1);
+            Assert.AreEqual(true, result2);
+            Assert.AreEqual(true, result3);
+        }
+
+        [Test]
+        public void LessThanWithNegativeDifferentType()
+        {
+            // Setup
+            var a = new IdleCash(-15000000);
+            var b = new IdleCash(-2000);
+            var c = new IdleCash(2);
+
+            // Execute
+            var result1 = a < b;
+            var result2 = b < c;
+            var result3 = a < c;
+
+            // Assert
+            Assert.AreEqual(true, result1);
+            Assert.AreEqual(true, result2);
+            Assert.AreEqual(true, result3);
+        }
+
+        #endregion
+
+        #region (<=) operator
+
+        [Test]
+        public void LessThanEqualSameType()
+        {
+            // Setup
+            var a = new IdleCash(1500);
+            var b = new IdleCash(1600);
+            var c = new IdleCash(1600);
+
+            // Execute
+            var result1 = a <= b;
+            var result2 = b <= c;
+
+            // Assert
+            Assert.AreEqual(true, result1);
+            Assert.AreEqual(true, result2);
+        }
+
+        [Test]
+        public void LessThanEqualDifferentType()
+        {
+            // Setup
+            var a = new IdleCash(15);
+            var b = new IdleCash(2000);
+
+            // Execute
+            var result = a <= b;
+
+            // Assert
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public void LessThanEqualWithNegativeSameType()
+        {
+            // Setup
+            var a = new IdleCash(-20000);
+            var b = new IdleCash(-15000);
+            var c = new IdleCash(-15000);
+            var d = new IdleCash(20000);
+
+            // Execute
+            var result1 = a <= b;
+            var result2 = b <= c;
+            var result3 = c <= d;
+            var result4 = a <= d;
+
+            // Assert
+            Assert.AreEqual(true, result1);
+            Assert.AreEqual(true, result2);
+            Assert.AreEqual(true, result3);
+            Assert.AreEqual(true, result4);
+        }
+
+        [Test]
+        public void LessThanEqualWithNegativeDifferentType()
+        {
+            // Setup
+            var a = new IdleCash(-15000000);
+            var b = new IdleCash(-2000);
+            var c = new IdleCash(-2000);
+            var d = new IdleCash(2);
+
+            // Execute
+            var result1 = a <= b;
+            var result2 = b <= c;
+            var result3 = c <= d;
+            var result4 = a <= d;
+
+            // Assert
+            Assert.AreEqual(true, result1);
+            Assert.AreEqual(true, result2);
+            Assert.AreEqual(true, result3);
+            Assert.AreEqual(true, result4);
+        }
+
+        #endregion
+
+        #region (>) operator
+
+        [Test]
+        public void GreaterThanSameType()
+        {
+            // Setup
+            var a = new IdleCash(1600);
+            var b = new IdleCash(1500);
+
+            // Execute
+            var result = a > b;
+
+            // Assert
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public void GreaterThanDifferentType()
+        {
+            // Setup
+            var a = new IdleCash(2000);
+            var b = new IdleCash(15);
+
+            // Execute
+            var result = a > b;
+
+            // Assert
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public void GreaterThanWithNegativeSameType()
+        {
+            // Setup
+            var a = new IdleCash(20000);
+            var b = new IdleCash(-15000);
+            var c = new IdleCash(-20000);
+
+            // Execute
+            var result1 = a > b;
+            var result2 = b > c;
+            var result3 = a > c;
+
+            // Assert
+            Assert.AreEqual(true, result1);
+            Assert.AreEqual(true, result2);
+            Assert.AreEqual(true, result3);
+        }
+
+        [Test]
+        public void GreaterThanWithNegativeDifferentType()
+        {
+            // Setup
+            var a = new IdleCash(2);
+            var b = new IdleCash(-2000);
+            var c = new IdleCash(-15000000);
+
+            // Execute
+            var result1 = a > b;
+            var result2 = b > c;
+            var result3 = a > c;
+
+            // Assert
+            Assert.AreEqual(true, result1);
+            Assert.AreEqual(true, result2);
+            Assert.AreEqual(true, result3);
+        }
+
+        #endregion
+
+        #region (>=) operator
+
+        [Test]
+        public void GreaterThanEqualSameType()
+        {
+            // Setup
+            var a = new IdleCash(1600);
+            var b = new IdleCash(1500);
+            var c = new IdleCash(1500);
+
+            // Execute
+            var result1 = a >= b;
+            var result2 = b >= c;
+
+            // Assert
+            Assert.AreEqual(true, result1);
+            Assert.AreEqual(true, result2);
+        }
+
+        [Test]
+        public void GreaterThanEqualDifferentType()
+        {
+            // Setup
+            var a = new IdleCash(2000);
+            var b = new IdleCash(15);
+
+            // Execute
+            var result = a >= b;
+
+            // Assert
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public void GreaterThanEqualWithNegativeSameType()
+        {
+            // Setup
+            var a = new IdleCash(20000);
+            var b = new IdleCash(-15000);
+            var c = new IdleCash(-15000);
+            var d = new IdleCash(-20000);
+
+            // Execute
+            var result1 = a >= b;
+            var result2 = b >= c;
+            var result3 = c >= d;
+            var result4 = a >= d;
+
+            // Assert
+            Assert.AreEqual(true, result1);
+            Assert.AreEqual(true, result2);
+            Assert.AreEqual(true, result3);
+            Assert.AreEqual(true, result4);
+        }
+
+        [Test]
+        public void GreaterThanEqualWithNegativeDifferentType()
+        {
+            // Setup
+            var a = new IdleCash(2);
+            var b = new IdleCash(-2000);
+            var c = new IdleCash(-2000);
+            var d = new IdleCash(-15000000);
+
+            // Execute
+            var result1 = a >= b;
+            var result2 = b >= c;
+            var result3 = c >= d;
+            var result4 = a >= d;
+
+            // Assert
+            Assert.AreEqual(true, result1);
+            Assert.AreEqual(true, result2);
+            Assert.AreEqual(true, result3);
+            Assert.AreEqual(true, result4);
+        }
+
+        #endregion
     }
 }
