@@ -367,6 +367,12 @@ namespace EmreBeratKR.IdleCash
 
         public static bool operator <(IdleCash lhs, IdleCash rhs)
         {
+            // Immediate return when only one of them is negative
+            if (lhs.value < 0 && rhs.value >= 0)
+                return true;
+            if (rhs.value < 0 && lhs.value >= 0)
+                return false;
+
             lhs.Simplify();
             rhs.Simplify();
 
@@ -378,11 +384,22 @@ namespace EmreBeratKR.IdleCash
                 return lhs.value < rhs.value;
             }
 
-            return lhsTypeIndex < rhsTypeIndex;
+            // when both of them is negative (and the type is different)
+            // reverse the result
+            if (lhs.value < 0 && rhs.value < 0)
+                return lhsTypeIndex > rhsTypeIndex;
+            else
+                return lhsTypeIndex < rhsTypeIndex;
         }
-        
+
         public static bool operator >(IdleCash lhs, IdleCash rhs)
         {
+            // Immediate return when only one of them is negative
+            if (lhs.value < 0 && rhs.value >= 0)
+                return false;
+            if (rhs.value < 0 && lhs.value >= 0)
+                return true;
+
             lhs.Simplify();
             rhs.Simplify();
 
@@ -394,11 +411,22 @@ namespace EmreBeratKR.IdleCash
                 return lhs.value > rhs.value;
             }
 
-            return lhsTypeIndex > rhsTypeIndex;
+            // when both of them is negative (and the type is different)
+            // reverse the result
+            if (lhs.value < 0 && rhs.value < 0)
+                return lhsTypeIndex < rhsTypeIndex;
+            else
+                return lhsTypeIndex > rhsTypeIndex;
         }
-        
+
         public static bool operator <=(IdleCash lhs, IdleCash rhs)
         {
+            // Immediate return when only one of them is negative
+            if (lhs.value < 0 && rhs.value >= 0)
+                return true;
+            if (rhs.value < 0 && lhs.value >= 0)
+                return false;
+
             lhs.Simplify();
             rhs.Simplify();
 
@@ -410,11 +438,22 @@ namespace EmreBeratKR.IdleCash
                 return lhs.value <= rhs.value;
             }
 
-            return lhsTypeIndex <= rhsTypeIndex;
+            // when both of them is negative (and the type is different)
+            // reverse the result
+            if (lhs.value < 0 && rhs.value < 0)
+                return lhsTypeIndex >= rhsTypeIndex;
+            else
+                return lhsTypeIndex <= rhsTypeIndex;
         }
-        
+
         public static bool operator >=(IdleCash lhs, IdleCash rhs)
         {
+            // Immediate return when only one of them is negative
+            if (lhs.value < 0 && rhs.value >= 0)
+                return false;
+            if (rhs.value < 0 && lhs.value >= 0)
+                return true;
+
             lhs.Simplify();
             rhs.Simplify();
 
@@ -426,7 +465,12 @@ namespace EmreBeratKR.IdleCash
                 return lhs.value >= rhs.value;
             }
 
-            return lhsTypeIndex >= rhsTypeIndex;
+            // when both of them is negative (and the type is different)
+            // reverse the result
+            if (lhs.value < 0 && rhs.value < 0)
+                return lhsTypeIndex <= rhsTypeIndex;
+            else
+                return lhsTypeIndex >= rhsTypeIndex;
         }
 
         
