@@ -497,7 +497,7 @@ namespace EmreBeratKR.IdleCash
             var firstTypeIndex = first.TypeIndex;
             var secondTypeIndex = second.TypeIndex;
             var typeDifference = Mathf.Abs(firstTypeIndex - secondTypeIndex);
-            var isFirstGreater = first > second;
+            var isFirstGreater = firstTypeIndex > secondTypeIndex;
 
             if (isFirstGreater)
             {
